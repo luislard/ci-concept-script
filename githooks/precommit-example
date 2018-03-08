@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This will start the tests using the php container
+
+cd ../ci-concept-docker && docker-compose exec -T php sh -c "cd /var/www/html && ./vendor/bin/phpunit ./tests"
+
+if [ $? -ne 0 ]; then
+    echo "Some test failed. Please check!"
+    exit 2
+else
+    echo "Tests are OK. You Rock!."
+    
+fi
