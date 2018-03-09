@@ -12,3 +12,4 @@ cd ../ci-concept-docker
 ./develop exec -T php sh -c 'find ./tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l'
 ./develop exec -T php sh -c './vendor/bin/phploc src'
 ./develop exec -T php sh -c './vendor/bin/phpcs src'
+./develop exec -T php sh -c './vendor/bin/phpcpd src'
