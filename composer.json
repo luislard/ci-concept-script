@@ -1,7 +1,8 @@
 {
   "require-dev": {
     "phpunit/phpunit": "7.0.2",
-    "phploc/phploc": "^4.0"
+    "phploc/phploc": "^4.0",
+    "squizlabs/php_codesniffer": "*"
   },
   "autoload": {
     "psr-0": {"":"src/"}
