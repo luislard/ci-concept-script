@@ -33,7 +33,7 @@ pipeline {
                 }
                 sh 'export PRODSTAGING=1'
                 echo 'Starting Docker Containers on Staging'
-                sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop exec php sh -c "pwd"'
+                echo '$PRODSTAGING'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop up -d'
                 echo 'Installing Dependencies on Staging'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop composer install'
