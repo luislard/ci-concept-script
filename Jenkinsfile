@@ -22,6 +22,9 @@ pipeline {
             }
         }
         stage('Stage 3: Deploy to Staging') {
+            environment {
+                PRODSTAGING=1
+            }
             steps {
                 dir ('../ci-concept-docker') {
                   echo 'Copying docker repo to Staging'
@@ -31,7 +34,6 @@ pipeline {
                   echo 'Copying project repo to Staging'
                   sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/home/ubuntu/ci-concept-script'
                 }
-                sh 'export PRODSTAGING=1'
                 echo 'Starting Docker Containers on Staging'
                 echo '$PRODSTAGING'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop up -d'
