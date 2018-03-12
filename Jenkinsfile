@@ -36,6 +36,7 @@ pipeline {
                 }
                 echo 'Starting Docker Containers on Staging'
                 sh 'printenv'
+                sh 'ssh -p 4263 ubuntu@172.31.44.218 export PRODSTAGING=1'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop up -d'
                 echo 'Installing Dependencies on Staging'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop composer install'
