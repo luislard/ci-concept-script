@@ -7,24 +7,17 @@ pipeline {
                 echo 'Docker repo was Downloaded'
             }
         }
-        stage('Stage 2: Starting docker containers') {
+        stage('Stage 2: Build') {
             steps {
                 dir ('../ci-concept-docker') {
+                  echo 'Starting Docker Containers'
                   sh './develop up -d'
-                }
-            }
-        }
-        stage('Stage 3: Installing Project Dependencies') {
-            steps {
-                dir ('../ci-concept-docker') {
+                  echo 'Installing Dependencies'
                   sh './develop composer install'
-                }
-            }
-        }
-        stage('Stage 4: Running PHPUnit tests') {
-            steps {
-                dir ('../ci-concept-docker') {
+                  echo 'Running PHPUnit Tests'
                   sh './develop t ./tests'
+                  echo 'Destroying Containers'
+                  sh './develop down'
                 }
             }
         }
