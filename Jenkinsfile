@@ -23,22 +23,27 @@ pipeline {
         }
         stage('Stage 3: Deploy to Staging') {
             environment {
-                DOCKERCOMPOSEPATH='/home/ubuntu/ci-concept-docker'
+                /* Staging Server Variables */
+                DOCKERFOLDER='/home/ubuntu/ci-concept-docker'
+                SSH_PORT=4263
+                SSH_USER='ubuntu'
+                SSH_IP='172.31.44.218'
             }
             steps {
+                echo 'Available variables'
+                sh 'printenv'
                 dir ('../ci-concept-docker') {
                   echo 'Copying docker repo to Staging'
-                  sh "scp -P 4263 -r . ubuntu@172.31.44.218:${env.DOCKERCOMPOSEPATH}"
+                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:${env.DOCKERFOLDER}"
                 }
                 dir ('../ci-concept-script') {
                   echo 'Copying project repo to Staging'
-                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/home/ubuntu/ci-concept-script'
+                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/ci-concept-script"
                 }
                 echo 'Starting Docker Containers on Staging'
-                sh 'printenv'
-                sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.yml up -d"
+                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.yml up -d"
                 echo 'Installing Dependencies on Staging'
-                sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.yml composer install"
+                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.yml exec php composer install"
             }
         }
     }
