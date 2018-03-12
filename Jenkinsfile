@@ -25,16 +25,16 @@ pipeline {
             steps {
                 dir ('../ci-concept-docker') {
                   echo 'Copying docker repo to Staging'
-                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/'
+                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/home/ubuntu/ci-concept-docker'
                 }
                 dir ('../ci-concept-script') {
                   echo 'Copying project repo to Staging'
-                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/'
+                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/home/ubuntu/ci-concept-script'
                 }
                 echo 'Starting Docker Containers on Staging'
-                sh 'ssh /ci-concept-docker/.develop up -d'
+                sh 'ssh ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/.develop up -d'
                 echo 'Installing Dependencies on Staging'
-                sh 'ssh /ci-concept-docker/.develop composer install'
+                sh 'ssh ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/.develop composer install'
             }
         }
     }
