@@ -29,7 +29,7 @@ pipeline {
             steps {
                 dir ('../ci-concept-docker') {
                   echo 'Copying docker repo to Staging'
-                  sh 'scp -P 4263 -r . ubuntu@172.31.44.218:${env.DOCKERCOMPOSEPATH}'
+                  sh "scp -P 4263 -r . ubuntu@172.31.44.218:${env.DOCKERCOMPOSEPATH}"
                 }
                 dir ('../ci-concept-script') {
                   echo 'Copying project repo to Staging'
@@ -38,9 +38,9 @@ pipeline {
                 echo 'Starting Docker Containers on Staging'
                 sh 'printenv'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 export PRODSTAGING=1'
-                sh 'ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml up -d'
+                sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml up -d"
                 echo 'Installing Dependencies on Staging'
-                sh 'ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml composer install'
+                sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml composer install"
             }
         }
     }
