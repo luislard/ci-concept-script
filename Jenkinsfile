@@ -31,6 +31,7 @@ pipeline {
                   echo 'Copying project repo to Staging'
                   sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/home/ubuntu/ci-concept-script'
                 }
+                sh 'export PRODSTAGING=1'
                 echo 'Starting Docker Containers on Staging'
                 sh 'ssh -p 4263 ubuntu@172.31.44.218 /home/ubuntu/ci-concept-docker/develop up -d'
                 echo 'Installing Dependencies on Staging'
