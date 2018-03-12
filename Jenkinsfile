@@ -43,7 +43,7 @@ pipeline {
                 echo 'Starting Docker Containers on Staging'
                 sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.yml up -d"
                 echo 'Installing Dependencies on Staging'
-                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.yml exec php composer install"
+                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.yml exec -T php composer install"
             }
         }
     }
