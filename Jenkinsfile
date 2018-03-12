@@ -7,9 +7,10 @@ pipeline {
                 echo 'Docker repo was Downloaded'
             }
         }
-        stage('Stage 2: Simple echo') {
+        stage('Stage 2: Starting docker containers') {
             steps {
-                echo 'Hello World from Stage 2'
+                sh 'cd ../ci-concept-docker'
+                sh './develop up -d'
             }
         }
     }
