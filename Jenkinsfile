@@ -37,7 +37,8 @@ pipeline {
                 }
                 echo 'Starting Docker Containers on Staging'
                 sh 'printenv'
-                sh "export APP_PORT=80 && ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml up -d"
+                sh 'ssh -p 4263 ubuntu@172.31.44.218 export APP_PORT=80'
+                sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml up -d"
                 echo 'Installing Dependencies on Staging'
                 sh "ssh -p 4263 ubuntu@172.31.44.218 docker-compose -f ${env.DOCKERCOMPOSEPATH}/docker-compose.dev.yml composer install"
             }
