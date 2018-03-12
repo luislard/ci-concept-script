@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Stage 1') {
+        stage('Stage 1: Download docker repo') {
             steps {
-                echo 'Hello world from pipeline!'
+                  git url: 'https://github.com/luislard/ci-concept-docker'
+                }
             }
         }
     }
