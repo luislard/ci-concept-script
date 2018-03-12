@@ -10,7 +10,7 @@ pipeline {
         stage('Stage 2: Starting docker containers') {
             steps {
                 dir ('../download-docker-repo') {
-                  sh '.develop up -d'
+                  sh './develop up -d'
                 }
             }
         }
