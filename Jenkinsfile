@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Stage 2: Starting docker containers') {
             steps {
-                sh 'cd ../ci-concept-docker'
+                sh 'cd ../download-docker-repo'
                 sh './develop up -d'
             }
         }
