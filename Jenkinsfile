@@ -17,7 +17,7 @@ pipeline {
         stage('Stage 3: Installing Project Dependencies') {
             steps {
                 dir ('../ci-concept-docker') {
-                  sh './develop t ./tests'
+                  sh './develop composer install'
                 }
             }
         }
