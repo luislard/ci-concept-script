@@ -32,9 +32,9 @@ pipeline {
                   sh 'scp -P 4263 -r . ubuntu@172.31.44.218:/'
                 }
                 echo 'Starting Docker Containers on Staging'
-                ssh /ci-concept-docker/.develop up -d
+                sh 'ssh /ci-concept-docker/.develop up -d'
                 echo 'Installing Dependencies on Staging'
-                ssh /ci-concept-docker/.develop composer install
+                sh 'ssh /ci-concept-docker/.develop composer install'
             }
         }
     }
