@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
         DOCKER_REPO_NAME = 'ci-concept-docker'
     }
     stages {
@@ -25,7 +24,7 @@ pipeline {
                 echo "Starting $STAGE_NAME"
                 echo '==============================================='
 
-                dir ("../$DOCKER_REPO_NAME) {
+                dir ("../${DOCKER_REPO_NAME}) {
                   echo 'Starting Docker Containers'
                   sh './develop up -d'
                   echo 'Installing Dependencies'
@@ -67,14 +66,14 @@ pipeline {
                 echo 'Move folders to Staging'
                 echo '======================='
 
-                dir ("../$DOCKER_REPO_NAME") {
+                dir ("../${DOCKER_REPO_NAME}") {
                   echo 'Copying docker repo to Staging'
                   sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:${env.DOCKERFOLDER}"
                 }
 
-                dir ("../$JOB_NAME") {
+                dir ("../${JOB_NAME}") {
                   echo 'Copying project repo to Staging'
-                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/$JOB_NAME"
+                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/${JOB_NAME}"
                 }
 
                 echo '====================================='
