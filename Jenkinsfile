@@ -24,7 +24,7 @@ pipeline {
                 echo "Starting $STAGE_NAME"
                 echo '==============================================='
 
-                dir ("../${DOCKER_REPO_NAME}) {
+                dir ("../${DOCKER_REPO_NAME}") {
                   echo 'Starting Docker Containers'
                   sh './develop up -d'
                   echo 'Installing Dependencies'
