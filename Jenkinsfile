@@ -43,9 +43,9 @@ pipeline {
                 }
                 echo 'Starting Docker Containers on Staging'
                 sh "ssh -p ${SSH_PORT} -o SendEnv=APP_PORT ${SSH_USER}@${SSH_IP} export APP_PORT=${env.APP_PORT}; echo $APP_PORT"
-                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.dev.yml up -d"
+                sh "ssh -p ${SSH_PORT} -o SendEnv=APP_PORT ${SSH_USER}@${SSH_IP} export APP_PORT=${env.APP_PORT}; docker-compose -f ${env.DOCKERFOLDER}/docker-compose.dev.yml up -d"
                 echo 'Installing Dependencies on Staging'
-                sh "ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.dev.yml exec -T php composer install"
+                sh "ssh -p ${SSH_PORT} -o SendEnv=APP_PORT ${SSH_USER}@${SSH_IP} export APP_PORT=${env.APP_PORT}; docker-compose -f ${env.DOCKERFOLDER}/docker-compose.dev.yml exec -T php composer install"
             }
         }
     }
