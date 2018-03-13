@@ -80,7 +80,6 @@ pipeline {
                 echo 'Starting Docker Containers on Staging'
                 echo '====================================='
 
-                /* sh "ssh -p ${SSH_PORT} -o SendEnv=APP_PORT ${SSH_USER}@${SSH_IP} export APP_PORT=${env.APP_PORT}" */
                 sh "ssh -p ${SSH_PORT} -o SendEnv=APP_PORT ${SSH_USER}@${SSH_IP} docker-compose -f ${env.DOCKERFOLDER}/docker-compose.dev.yml up -d"
 
                 echo '=================================='
