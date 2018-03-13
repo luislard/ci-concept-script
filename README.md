@@ -8,8 +8,8 @@
   * Pipeline.
 
 1. Let's asume the most basic structure. Your project will have 2 folders.
-  1. projectname-docker
-  2. projectname-back
+  * projectname-docker
+  * projectname-back
 
 2. You will need to create a job in **Jenkins** for the docker project.
   * Click on **New Task**.
@@ -20,9 +20,12 @@
 3. Then, create a pipeline for the project itself.
   * Click on **New Task**.
   * Put the name of your docker folder and select **pipeline**, then click OK at the bottom.
+  * Put the url of the repo in the configuration panel and click Save.
 
   ![alt text](./img/pipeline-jenkins-config-example.png)
 
 4. Then, add a **Jenkinsfile** in the root of your project.
+
+  In the example below  **ci-concept-script is our project**.
 
   ![alt text](./img/project-structure.png)
