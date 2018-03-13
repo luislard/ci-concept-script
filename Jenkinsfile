@@ -1,7 +1,10 @@
+def folderName = env.JOB_NAME.take((env.JOB_NAME.length())-(env.JOB_BASE_NAME.length()))
+
 pipeline {
     agent any
     environment {
         DOCKER_REPO_NAME = 'ci-concept-docker'
+        FOLDER_NAME = env.JOB_NAME.take((env.JOB_NAME.length())-(env.JOB_BASE_NAME.length()))
     }
     stages {
         stage('Stage 1: Download Docker Repo') {
@@ -45,7 +48,7 @@ pipeline {
                 /****************************/
                 /* Staging Server Variables */
                 /****************************/
-                DOCKERFOLDER="/home/ubuntu/$DOCKER_REPO_NAME"
+                DOCKERFOLDER="/home/ubuntu/$FOLDER_NAME/$DOCKER_REPO_NAME"
                 SSH_PORT=4263
                 SSH_USER='ubuntu'
                 SSH_IP='172.31.44.218'
@@ -71,7 +74,7 @@ pipeline {
                   sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:${env.DOCKERFOLDER}"
                 }
 
-                dir ("../${JOB_NAME}") {
+                dir ("../${JOB_BASE_NAME}") {
                   echo 'Copying project repo to Staging'
                   sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/${JOB_NAME}"
                 }
