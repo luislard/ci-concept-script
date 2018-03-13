@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
+        DOCKER_REPO_NAME = 'ci-concept-docker'
+    }
     stages {
         stage('Stage 1: Download Docker Repo') {
             steps {
@@ -7,7 +11,7 @@ pipeline {
                 echo "Starting $STAGE_NAME"
                 echo '==============================================='
 
-                build job: 'ci-concept-docker'
+                build job: "$DOCKER_REPO_NAME"
                 echo 'Docker repo was Downloaded'
 
                 echo '==============================================='
@@ -21,7 +25,7 @@ pipeline {
                 echo "Starting $STAGE_NAME"
                 echo '==============================================='
 
-                dir ('../ci-concept-docker') {
+                dir ("../$DOCKER_REPO_NAME) {
                   echo 'Starting Docker Containers'
                   sh './develop up -d'
                   echo 'Installing Dependencies'
@@ -42,7 +46,7 @@ pipeline {
                 /****************************/
                 /* Staging Server Variables */
                 /****************************/
-                DOCKERFOLDER='/home/ubuntu/ci-concept-docker'
+                DOCKERFOLDER="/home/ubuntu/$DOCKER_REPO_NAME"
                 SSH_PORT=4263
                 SSH_USER='ubuntu'
                 SSH_IP='172.31.44.218'
@@ -59,18 +63,22 @@ pipeline {
 
                 sh 'printenv'
 
+                echo '========================'
+                echo 'Stopping previous deploy'
+                echo '========================'
+
                 echo '======================='
                 echo 'Move folders to Staging'
                 echo '======================='
 
-                dir ('../ci-concept-docker') {
+                dir ("../$DOCKER_REPO_NAME") {
                   echo 'Copying docker repo to Staging'
                   sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:${env.DOCKERFOLDER}"
                 }
 
-                dir ('../ci-concept-script') {
+                dir ("../$JOB_NAME") {
                   echo 'Copying project repo to Staging'
-                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/ci-concept-script"
+                  sh "scp -P ${SSH_PORT} -r . ${SSH_USER}@${SSH_IP}:/home/ubuntu/$JOB_NAME"
                 }
 
                 echo '====================================='
