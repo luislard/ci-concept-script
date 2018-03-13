@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         DOCKER_REPO_NAME = 'ci-concept-docker'
-        FOLDER_NAME = env.JOB_NAME.take((env.JOB_NAME.length())-(env.JOB_BASE_NAME.length()))
+        FOLDER_NAME = env.JOB_NAME.take((env.JOB_NAME.length())-(env.JOB_BASE_NAME.length())-1)
     }
     stages {
         stage('Stage 1: Download Docker Repo') {
